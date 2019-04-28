@@ -1,0 +1,431 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/style.css" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../js/echarts.common.min.js"></script>
+
+	</head>
+	<style>
+		.mui-content {
+			background-color: #FFFFFF;
+		}
+		
+		.chars-top {
+			padding: 15px 20px;
+			background: #FFFFFF;
+			border-bottom: 1px solid #DDDDDD;
+		}
+		
+		.chars-top>:first-child {
+			display: inline-block;
+			color: #333333;
+			padding: 0px 10px 0px 10px;
+			height: 30px;
+			border: 1px solid #FF3838;
+			line-height: 30px;
+			text-align: center;
+			border-right: none;
+			border-radius: 5px 0px 0px 5px;
+		}
+		
+		.chars-top>:first-child+span {
+			display: inline-block;
+			color: #333333;
+			padding: 0px 10px 0px 10px;
+			height: 30px;
+			border: 1px solid #FF3838;
+			text-align: center;
+			line-height: 30px;
+			border-radius: 0px 5px 5px 0px;
+		}
+		
+		.chars-top>:first-child+span+span {
+			display: inline-block;
+			color: #333333;
+			padding: 0px 5px 0px 5px;
+			height: 30px;
+			border: 1px solid #FF3838;
+			text-align: center;
+			line-height: 30px;
+			border-radius: 5px 5px 5px 5px;
+		}
+		
+		.acctivelable {
+			background-color: #ff3838;
+		}
+		
+		.zhichuph {
+			width: 100%;
+			height: 210px;
+		}
+		
+		.shouruph {
+			width: 100%;
+			height: 210px;
+		}
+		
+		.shouruplable {
+			margin: 15px;
+			color: #333333;
+		}
+		
+		.zhichuplable {
+			margin: 15px;
+			color: #333333;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">收支排行榜</h1>
+		</header>
+		<div class="mui-content">
+			<div class="chars-top">
+				<span class="acctivelable" id="yuelable">月</span><span id="nianlable">年</span><span class="mui-pull-right" id="nianyue"></span>
+			</div>
+			<div class="zhichuplable">支出排行榜</div>
+			<div class="zhichuph" id="zhichuph"></div>
+			<div class="shouruplable">收入排行榜</div>
+			<div class="shouruph" id="shouruph"></div>
+		</div>
+		<script>
+			(function() {
+				mui.init();
+				var myDate = new Date();
+				var Year = myDate.getFullYear();
+				var month = myDate.getMonth() + 1;
+
+				draw(Year, month);
+
+				mui("#yuelable")[0].addEventListener('tap', function() {
+					document.querySelector("#nianlable").classList.remove("acctivelable");
+					document.querySelector("#yuelable").classList.add("acctivelable");
+					var dtPicker = new mui.DtPicker({
+						type: 'month',
+						beginDate: new Date(2010, 0, 01), //设置开始日期 
+						endDate: new Date(2050, 11, 31), //设置结束日期 
+					});
+					dtPicker.show(function(selectItems) {
+						a_year = parseInt(selectItems.y.text); //获取选择的年
+						a_month = parseInt(selectItems.m.text); //获取选择的月
+						draw(a_year, a_month);
+					});
+				});
+
+				mui("#nianlable")[0].addEventListener('tap', function() {
+					document.querySelector("#yuelable").classList.remove("acctivelable");
+					document.querySelector("#nianlable").classList.add("acctivelable");
+					var dtPicker = new mui.DtPicker({
+						type: 'month',
+						"customData": {
+							"m": [{
+								value: "-",
+								text: "-"
+							}]
+						},
+						beginDate: new Date(2010, 0, 01), //设置开始日期 
+						endDate: new Date(2050, 11, 31), //设置结束日期 
+					});
+					dtPicker.show(function(selectItems) {
+						a_year = parseInt(selectItems.y.text); //获取选择的年
+						draw(a_year, 0);
+
+					});
+				});
+
+				function draw(y, m) {
+					mui.plusReady(function() {
+						var monthshou = 0;
+						var monthzhi = 0;
+						var readkey;
+						var readkeyarr = [];
+						var readvalue;
+						var oneday = [];
+						var convert = {};
+						var readvaluearr = [];
+						for(var i = 0; i < plus.storage.getLength(); i++) {
+							var onedaytmp = {};
+							var ac_shou = 0;
+							var ac_zhi = 0;
+							var ac_day = [];
+							readkey = plus.storage.key(i);
+							readvalue = plus.storage.getItem(readkey);
+
+							readkeyarr = readkey.split('-');
+							onedaytmp['ac_year'] = readkeyarr[0];
+							onedaytmp['ac_month'] = readkeyarr[1];
+							onedaytmp['ac_date'] = readkeyarr[2];
+							readvaluearr = readvalue.split('/');
+
+							for(var j = 0; j < readvaluearr.length; j++) {
+								var ac_daytmp = {};
+								var tmp = [];
+								tmp = readvaluearr[j].split('-');
+								if(tmp[0] == "1") {
+									ac_zhi = ac_zhi + parseFloat(tmp[2]);
+								} else {
+									ac_shou = ac_shou + parseFloat(tmp[2]);
+								}
+								ac_daytmp['ac_shouzhi'] = tmp[0];
+								ac_daytmp['ac_name'] = tmp[1];
+								ac_daytmp['ac_money'] = tmp[2];
+								ac_day.push(ac_daytmp);
+							}
+							onedaytmp['ac_zhi'] = ac_zhi;
+							onedaytmp['ac_day'] = ac_day;
+							onedaytmp['ac_shou'] = ac_shou;
+							oneday.push(onedaytmp);
+						}
+
+						//console.log(JSON.stringify(oneday));
+
+						var zhichuphbarr = [];
+						var shouruphbarr = [];
+						for(var i = 0; i < 8; i++) {
+							zhichuphbarr[i] = 0;
+							shouruphbarr[i] = 0;
+						}
+						if(m == 0) {
+							for(var i = 0; i < oneday.length; i++) {
+								if(oneday[i].ac_year == y) {
+									for(var j = 0; j < oneday[i].ac_day.length; j++) {
+										if(oneday[i].ac_day[j].ac_name == "餐饮") {
+											zhichuphbarr[0] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "交通") {
+											zhichuphbarr[1] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "购物") {
+											zhichuphbarr[2] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "娱乐") {
+											zhichuphbarr[3] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "居住") {
+											zhichuphbarr[4] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "医疗") {
+											zhichuphbarr[5] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "教育") {
+											zhichuphbarr[6] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "其他" && oneday[i].ac_day[j].ac_shouzhi == 1) {
+											zhichuphbarr[7] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "工资") {
+											shouruphbarr[0] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "奖金") {
+											shouruphbarr[1] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "兼职") {
+											shouruphbarr[2] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "红包") {
+											shouruphbarr[3] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "投资") {
+											shouruphbarr[4] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "理财") {
+											shouruphbarr[5] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "收款") {
+											shouruphbarr[6] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "其他" && oneday[i].ac_day[j].ac_shouzhi == 0) {
+											shouruphbarr[7] += parseFloat(oneday[i].ac_day[j].ac_money);
+										}
+									}
+								}
+							}
+						} else {
+							for(var i = 0; i < oneday.length; i++) {
+								if(oneday[i].ac_year == y && oneday[i].ac_month == m) {
+									for(var j = 0; j < oneday[i].ac_day.length; j++) {
+										if(oneday[i].ac_day[j].ac_name == "餐饮") {
+											zhichuphbarr[0] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "交通") {
+											zhichuphbarr[1] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "购物") {
+											zhichuphbarr[2] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "娱乐") {
+											zhichuphbarr[3] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "居住") {
+											zhichuphbarr[4] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "医疗") {
+											zhichuphbarr[5] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "教育") {
+											zhichuphbarr[6] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "其他" && oneday[i].ac_day[j].ac_shouzhi == 1) {
+											zhichuphbarr[7] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "工资") {
+											shouruphbarr[0] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "奖金") {
+											shouruphbarr[1] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "兼职") {
+											shouruphbarr[2] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "红包") {
+											shouruphbarr[3] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "投资") {
+											shouruphbarr[4] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "理财") {
+											shouruphbarr[5] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "收款") {
+											shouruphbarr[6] += parseFloat(oneday[i].ac_day[j].ac_money);
+										} else if(oneday[i].ac_day[j].ac_name == "其他" && oneday[i].ac_day[j].ac_shouzhi == 0) {
+											shouruphbarr[7] += parseFloat(oneday[i].ac_day[j].ac_money);
+										}
+									}
+								}
+							}
+						}
+						
+						
+						var zhichuphbname=["餐饮","交通","购物","娱乐","居住","医疗","教育","其他"];
+						var shouruphbname=["工资","奖金","兼职","红包","投资","理财","收款","其他"];
+						var t;
+						var s="";
+						for(var i=0;i<8;i++){
+							for(var j=0;j<8-i;j++){
+								if(zhichuphbarr[j]>zhichuphbarr[j+1]){
+									t=zhichuphbarr[j];
+									zhichuphbarr[j]=zhichuphbarr[j+1];
+									zhichuphbarr[j+1]=t;
+									s=zhichuphbname[j];
+									zhichuphbname[j]=zhichuphbname[j+1];
+									zhichuphbname[j+1]=s;
+								}
+								if(shouruphbarr[j]>shouruphbarr[j+1]){
+									t=shouruphbarr[j];
+									shouruphbarr[j]=shouruphbarr[j+1];
+									shouruphbarr[j+1]=t;
+									s=shouruphbname[j];
+									shouruphbname[j]=shouruphbname[j+1];
+									shouruphbname[j+1]=s;
+								}
+							}
+						}
+						
+						//console.log(zhichuphbarr);
+						//console.log(zhichuphbname);
+						
+						
+						var zhichuph = echarts.init(document.getElementById('zhichuph'));
+						option = {
+							color: ['#ff3838'],
+							tooltip: {
+								trigger: 'axis',
+								backgroundColor: 'rgba(0,0,0,0.3)',
+								axisPointer: { // 坐标轴指示器，坐标轴触发有效
+									type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+									shadowStyle: { // 阴影指示器样式设置
+										color: 'rgba(255,255,255,0)' // 阴影颜色
+									}
+								},
+							},
+							grid: {
+								top: '10%',
+								left: '3%',
+								right: '4%',
+								bottom: '10%',
+								containLabel: true
+							},
+							xAxis: {
+								type: 'value',
+								axisTick: { //坐标轴刻度相关设置
+									show: false //是否显示坐标轴刻度。
+								},
+								axisLine: { //坐标 轴线
+									show: false
+								},
+								axisLabel: { //坐标轴刻度标签的相关设置
+									show: false
+								},
+								splitLine: { //坐标轴在 grid 区域中的分隔线。
+									show: false
+								},
+								boundaryGap: [0, 0.01]
+							},
+							yAxis: {
+								type: 'category',
+								boundaryGap: false,
+								axisLine: { //坐标 轴线
+									show: false
+								},
+								axisTick: { //坐标轴刻度相关设置
+									show: false //是否显示坐标轴刻度。
+								},
+								data: zhichuphbname
+							},
+							series: [{
+								type: 'bar',
+								data: zhichuphbarr
+							}]
+						};
+						zhichuph.setOption(option);
+						
+						
+						var shouruph = echarts.init(document.getElementById('shouruph'));
+						option = {
+							color: ['#ff3838'],
+							tooltip: {
+								trigger: 'axis',
+								backgroundColor: 'rgba(0,0,0,0.3)',
+								axisPointer: { // 坐标轴指示器，坐标轴触发有效
+									type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+									shadowStyle: { // 阴影指示器样式设置
+										color: 'rgba(255,255,255,0)' // 阴影颜色
+									}
+								},
+							},
+							grid: {
+								top: '10%',
+								left: '3%',
+								right: '4%',
+								bottom: '10%',
+								containLabel: true
+							},
+							xAxis: {
+								type: 'value',
+								axisTick: { //坐标轴刻度相关设置
+									show: false //是否显示坐标轴刻度。
+								},
+								axisLine: { //坐标 轴线
+									show: false
+								},
+								axisLabel: { //坐标轴刻度标签的相关设置
+									show: false
+								},
+								splitLine: { //坐标轴在 grid 区域中的分隔线。
+									show: false
+								},
+								boundaryGap: [0, 0.01]
+							},
+							yAxis: {
+								type: 'category',
+								boundaryGap: false,
+								axisLine: { //坐标 轴线
+									show: false
+								},
+								axisTick: { //坐标轴刻度相关设置
+									show: false //是否显示坐标轴刻度。
+								},
+								data: shouruphbname
+							},
+							series: [{
+								type: 'bar',
+								data: shouruphbarr
+							}]
+						};
+						shouruph.setOption(option);
+
+					})
+
+					if(m == 0) {
+						str = y + '年';
+					} else {
+						str = y + '年' + m + '月';
+					}
+					document.getElementById("nianyue").innerText = str;
+				}
+			})()
+		</script>
+	</body>
+
+</html>

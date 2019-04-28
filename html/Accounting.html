@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/style.css" />
+		<link rel="stylesheet" href="../css/iconfont.css" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" />
+		<script type="text/javascript" src="../js/vue.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/mui.picker.min.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">记一笔</h1>
+		</header>
+		<div class="mui-content ac-body">
+			<div class="ac-center">
+				<span id="shouru" class="acctive">支出</span><span id="zhichu">收入</span>
+				<div class="oneclo mui-ellipsis">
+					<div class="colitem" id="item1" v-if="acc==1" @tap="chosee(1)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-canyin"></span>
+						</div>
+						<span class="colitem-str">餐饮</span>
+					</div>
+					<div class="colitem" id="items1" v-else @tap="chosee(1)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-gongzi"></span>
+						</div>
+						<span class="colitem-str">工资</span>
+					</div>
+					<div class="colitem" id="item2" v-if="acc==1" @tap="chosee(2)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-traffic"></span>
+						</div>
+						<span class="colitem-str">交通</span>
+					</div>
+					<div class="colitem" id="items2" v-else @tap="chosee(2)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-jixiaojiangjin"></span>
+						</div>
+						<span class="colitem-str">奖金</span>
+					</div>
+					<div class="colitem" id="item3" v-if="acc==1" @tap="chosee(3)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-gouwu"></span>
+						</div>
+						<span class="colitem-str">购物</span>
+					</div>
+					<div class="colitem" id="items3" v-else @tap="chosee(3)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-jianzhi"></span>
+						</div>
+						<span class="colitem-str">兼职</span>
+					</div>
+					<div class="colitem" id="item4" v-if="acc==1" @tap="chosee(4)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-yule"></span>
+						</div>
+						<span class="colitem-str">娱乐</span>
+					</div>
+					<div class="colitem" id="items4" v-else @tap="chosee(4)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-hongbao"></span>
+						</div>
+						<span class="colitem-str">红包</span>
+					</div>
+				</div>
+
+				<div class="oneclo">
+					<div class="colitem" id="item5" v-if="acc==1" @tap="chosee(5)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-house"></span>
+						</div>
+						<span class="colitem-str">居住</span>
+					</div>
+					<div class="colitem" id="items5" v-else @tap="chosee(5)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-touzi"></span>
+						</div>
+						<span class="colitem-str">投资</span>
+					</div>
+					<div class="colitem" id="item6" v-if="acc==1" @tap="chosee(6)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-yiliao"></span>
+						</div>
+						<span class="colitem-str">医疗</span>
+					</div>
+					<div class="colitem" id="items6" v-else @tap="chosee(6)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-iconsd"></span>
+						</div>
+						<span class="colitem-str">理财</span>
+					</div>
+					<div class="colitem" id="item7" v-if="acc==1" @tap="chosee(7)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-study"></span>
+						</div>
+						<span class="colitem-str">教育</span>
+					</div>
+					<div class="colitem" id="items7" v-else @tap="chosee(7)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-shoukuan"></span>
+						</div>
+						<span class="colitem-str">收款</span>
+					</div>
+					<div class="colitem" id="item8" v-if="acc==1" @tap="chosee(8)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-qita"></span>
+						</div>
+						<span class="colitem-str">其他</span>
+					</div>
+					<div class="colitem" id="items8" v-else @tap="chosee(8)">
+						<div class="colitem-img">
+							<span class="mui-icon iconfont icon-qita"></span>
+						</div>
+						<span class="colitem-str">其他</span>
+					</div>
+				</div>
+
+			</div>
+
+			<ul class="mui-table-view mui-grid-view mui-grid-9 keyboard">
+				<li class="mui-table-view-cell mui-media mui-col-xs-9 mui-collapse-content">
+					<div id="zhonglei"></div>
+					<div id="zongjia">0.00</div>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3" id="riqi">
+					日期
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="num1">
+					1
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="num2">
+					2
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="num3">
+					3
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="num4">
+					4
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="num5">
+					5
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="num6">
+					6
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="num7">
+					7
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="num8">
+					8
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="num9">
+					9
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="numdot">
+					.
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="num0">
+					0
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" id="numsc">
+					<span class="mui-icon iconfont icon-shanchu"></span>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6" id="quxiao">
+					取消
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-6" id="wancheng">
+					完成
+				</li>
+			</ul>
+			<script type="text/javascript" src="../js/Accounting.js"></script>
+	</body>
+
+</html>

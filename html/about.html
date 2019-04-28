@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" href="../css/style.css" />
+	</head>
+	<style>
+		.mui-content span {
+			display: block;
+			font-size: 20px;
+			line-height: 30px;
+			width: 100%;
+			padding: 15px;
+			color: #333333;
+			background-color: #FFFFFF;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">关&nbsp;&nbsp;&nbsp;&nbsp;于</h1>
+		</header>
+		<div class="mui-content">
+			<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;极速记(FastAccountBook),是由h5+ app结合mui框架以及Vue.js混合编程,用于参与西南科技大学第一届黑客马拉松比赛。本产品仅供学习交流所用。</span>
+			<span>项目已开源，欢迎交流</span>
+			<span id="github">点击此处复制github地址</span>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script>
+			mui("#github")[0].addEventListener('tap', function() {
+				if(!window.plus) return; //判断当前环境是否为手机
+				if(mui.os.android) { //当前手机系统为android
+					var Context = plus.android.importClass("android.content.Context"); //导入Java类对象
+					var main = plus.android.runtimeMainActivity(); //获取应用主Activity(界面载体，原生应用是由很多个Activity所构成，而混合APP则是只有一个Activity 通过webview来实现app内容)实例对象
+					var clip = main.getSystemService(Context.CLIPBOARD_SERVICE);
+					plus.android.invoke(clip, "setText", "https://github.com/Logan9595/FastAccountBook");
+				} else { //ios系统
+					var UIPasteboard = plus.ios.importClass("UIPasteboard"); //导入Objective-C类对象
+					var generalPasteboard = UIPasteboard.generalPasteboard(); //获得ios粘贴板
+					generalPasteboard.setValueforPasteboardType("https://github.com/Logan9595/FastAccountBook", "public.utf8-plain-text"); //往粘贴板中写入数据
+				}
+				mui.toast("复制成功");
+			})
+		</script>
+	</body>
+
+</html>

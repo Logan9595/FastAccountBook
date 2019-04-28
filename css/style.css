@@ -1,0 +1,307 @@
+[v-cloak]{  
+    display: none;  
+} 
+html,
+body {
+	background-color: white;
+}
+
+.mui-bar-nav {
+	background-color: #FF3838;
+	box-shadow: none;
+}
+
+.mui-bar-nav h1 {
+	color: white;
+}
+
+.mui-bar-nav a {
+	color: white;
+}
+
+.drak-bigs {
+	font-size: 20px;
+	color: #333333;
+}
+
+.drak-big {
+	font-size: 16px;
+	color: #333333;
+}
+
+.drak-mid {
+	font-size: 14px;
+	color: #333333;
+}
+
+.drak-small {
+	font-size: 12px;
+	color: #333333;
+}
+
+.drak-micro {
+	font-size: 10px;
+	color: #333333;
+}
+
+.gray-big {
+	font-size: 16px;
+	color: #A2A2A2;
+}
+
+.gray-mid {
+	font-size: 14px;
+	color: #A2A2A2;
+}
+
+.gray-small {
+	font-size: 12px;
+	color: #A2A2A2;
+}
+
+.gray-micro {
+	font-size: 10px;
+	color: #A2A2A2;
+}
+
+.line1 {
+	height: 10px;
+	background-color: #EEEEEE;
+}
+
+.line2 {
+	height: 5px;
+	background-color: #EEEEEE;
+}
+
+.top {
+	height: 90px;
+	background-color: #FF3838;
+}
+
+.top .mui-pull-left {
+	padding: 15px;
+}
+
+.head-nav {
+	box-shadow: none;
+}
+
+.year {
+	text-align: center;
+	font-size: 18px;
+	color: #ffffff;
+	display: block;
+}
+
+.month {
+	text-align: center;
+	font-size: 35px;
+	color: #ffffff;
+	display: block;
+	margin-top: 10px;
+}
+
+.month span {
+	display: inline-block;
+}
+
+.month-str {
+	font-size: 18px;
+}
+
+.income {
+	margin-top: 30px;
+	margin-right: 40px;
+}
+
+.pay {
+	margin-top: 30px;
+	margin-right: 80px;
+}
+
+.income span {
+	color: white;
+	display: block;
+	text-align: center;
+}
+
+.pay span {
+	color: white;
+	display: block;
+	text-align: center;
+}
+
+.oneday {
+	width: 100%;
+	padding: 15px;
+	background: #FFFFFF;
+}
+
+.onedaytop {
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+.onedaytop span {
+	display: inline-block;
+}
+
+
+.shijian {
+	float: left;
+}
+
+.dateshouru {
+	float: right;
+	margin-left: 10px;
+}
+
+.datezhichu {
+	float: right;
+}
+
+.iconcircle {
+	text-align: center;
+	width: 25px;
+	height: 25px;
+	border-radius: 20px;
+	background-color: #FF3838;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.iconcircle span {
+	color: white;
+	line-height: 25px;
+}
+
+.iconcircle+span {
+	color: #323232;
+	line-height: 25px;
+}
+
+.iconcircle+span+span {
+	float: right;
+}
+
+.oneday .mui-table-view:after {
+	background-color: #FFFFFF;
+}
+
+.oneday .mui-table-view:before {
+	background-color: #FFFFFF;
+}
+
+.oneday .mui-table-view-cell:after {
+	background-color: #FFFFFF;
+}
+
+.line {
+	padding: 15px;
+	height: 1px;
+	background-color: red;
+}
+
+.clear {
+	clear: both;
+}
+
+.ac-center {
+	height: 280px;
+	padding-top: 5px;
+	background-color: #ffffff;
+	text-align: center;
+}
+
+.ac-center>:first-child {
+	display: inline-block;
+	color: #555555;
+	width: 80px;
+	height: 30px;
+	margin-top: 10px;
+	border: 1px solid #FF3838;
+	line-height: 30px;
+	border-right: none;
+	border-radius: 5px 0px 0px 5px;
+}
+
+.ac-center>:first-child+span {
+	display: inline-block;
+	color: #555555;
+	width: 80px;
+	height: 30px;
+	margin-top: 10px;
+	border: 1px solid #FF3838;
+	line-height: 30px;
+	border-radius: 0px 5px 5px 0px;
+}
+
+.oneclo {
+	margin: 20px 15px 0px 15px;
+}
+
+.colitem {
+	float: left;
+	width: 15%;
+	margin: 0 5% 0 5%;
+}
+
+.colitem-img .mui-icon {
+	text-align: center;
+	line-height: 45px;
+	font-size: 35px;
+	color: #888888;
+}
+
+.colitem-img {
+	display: inline-block;
+	text-align: center;
+	width: 45px;
+	height: 45px;
+	border-radius: 45px;
+	background-color: #f5f5f5;
+}
+
+.colitem-str {
+	display: block;
+	font-size: 12px;
+	margin-top: 15px;
+	text-align: center;
+}
+
+.acctive {
+	background-color: #FF3838;
+	color: #FFFFFF !important;
+}
+
+.acctiveimg {
+	background-color: #FF3838;
+}
+
+.acctiveicon {
+	color: white !important;
+}
+
+.keyboard {
+	position: absolute;
+	bottom: 0px;
+	background-color: #FFFFFF !important;
+}
+
+#zhonglei {
+	float: left;
+	font-size: 20px;
+}
+
+#zongjia {
+	float: right;
+	font-size: 25px;
+}
+
+.icon-shanchu {
+	display: inline-block;
+	font-size: 18px !important;
+	line-height: 18px;
+	text-align: center;
+}

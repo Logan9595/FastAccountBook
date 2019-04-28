@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/iconfont.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/mui.picker.min.css" />
+		<script type="text/javascript" src="js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="js/vue.min.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav head-nav">
+			<h1 class="mui-title">账&nbsp;&nbsp;&nbsp;&nbsp;单</h1>
+		</header>
+		<div class="mui-content" id="onedays"  v-cloak>
+			<div class="top">
+				<div class="mui-pull-left" @tap="opendate">
+					<span class="year">{{a_year}}年</span>
+					<div class="month">
+						<span>{{a_month}}</span><span class="month-str">月</span>&nbsp;<span class="month-str">▾</span>
+					</div>
+				</div>
+				<div class="income mui-pull-right">
+					<span>收入</span>
+					<span>{{monthshou}}</span>
+				</div>
+				<div class="pay mui-pull-right">
+					<span>支出</span>
+					<span>{{monthzhi}}</span>
+				</div>
+			</div>
+
+			<div class="mui-scroll-wrapper" style="top: 130px; height: 73%;overflow: scroll;">
+				<div class="mui-scroll">
+					<!--这里放置真实显示的DOM内容-->
+					<div class="oneday" v-for="item in oneday">
+						<div class="onedaytop">
+							<span class="shijian gray-big">{{item.ac_month}}月{{item.ac_date}}日</span>
+							<span class="dateshouru gray-big">收入:{{item.ac_shou}}</span>
+							<span class="datezhichu gray-big">支出:{{item.ac_zhi}}</span>
+						</div>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-collapse-content" v-for="i in item.ac_day" @tap="deletedata(item,i)">
+								<div class="iconcircle">
+									<span class="mui-icon iconfont " :class="[i.ac_icon]"></span>
+								</div>
+								<span>{{i.ac_name}}</span>
+								<span v-if="i.ac_shouzhi==1">-{{i.ac_money}}</span>
+								<span v-else>+{{i.ac_money}}</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/util.js"></script>
+		<script type="text/javascript" src="js/html.js"></script>
+	</body>
+
+</html>

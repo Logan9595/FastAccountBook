@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/style.css" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" />
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/mui.picker.min.js" ></script>
+		<script type="text/javascript" src="../js/echarts.common.min.js"></script>
+		
+	</head>
+	<style>
+		.chars-top {
+			padding: 15px 20px;
+			background: #FFFFFF;
+			border-bottom: 1px solid #DDDDDD;
+		}
+		
+		.chars-top>:first-child {
+			display: inline-block;
+			color: #333333;
+			padding: 0px 10px 0px 10px;
+			height: 30px;
+			border: 1px solid #FF3838;
+			line-height: 30px;
+			text-align: center;
+			border-right: none;
+			border-radius: 5px 0px 0px 5px;
+		}
+		
+		.chars-top>:first-child+span {
+			display: inline-block;
+			color: #333333;
+			padding: 0px 10px 0px 10px;
+			height: 30px;
+			border: 1px solid #FF3838;
+			text-align: center;
+			line-height: 30px;
+			border-radius: 0px 5px 5px 0px;
+		}
+		.chars-top>:first-child+span +span{
+			display: inline-block;
+			color: #333333;
+			padding: 0px 5px 0px 5px;
+			height: 30px;
+			border: 1px solid #FF3838;
+			text-align: center;
+			line-height: 30px;
+			border-radius: 5px 5px 5px 5px;
+		}
+		.linechars{
+			background-color: #FFFFFF;
+			width: 100%;
+			height: 200px;
+			padding: 0px 15px;
+		}
+		.linechars +div{
+			background-color: white;
+			padding:30px 0px 25px 15px;
+		}
+		.piechars1{
+			float: left;
+			width: 50%;
+			height: 230px;
+		}
+		.piechars2{
+			float: right;
+			width: 50%;
+			height: 230px;
+		}
+		.shourulable{
+			float: left;
+			width: 50%;
+			text-align: center;
+		}
+		.zhichulable{
+			float: right;
+			width: 50%;
+			text-align: center;
+		}
+		.acctivelable{
+			background-color: #ff3838;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">数据分析</h1>
+		</header>
+		<div class="mui-content">
+			<div class="chars-top">
+				<span class="acctivelable" id="yuelable">月</span><span id="nianlable">年</span><span class="mui-pull-right" id="nianyue"></span>
+			</div>
+			<div id="linechar" class="linechars"></div>
+			<div class="drak-bigs">收支统计图</div>
+			<span class="shourulable">支出</span>
+			<span class="zhichulable">收入</span>
+			<div id="piechar1" class="piechars1"></div>
+			<div id="piechar2" class="piechars2"></div>
+		</div>
+		<script type="text/javascript" src="../js/chart.js"></script>
+	</body>
+
+</html>
